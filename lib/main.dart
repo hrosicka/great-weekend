@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 import 'models/idea_model.dart';
 import 'services/idea_service.dart';
@@ -19,7 +20,53 @@ class IdeaGeneratorApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(primarySwatch: Colors.pink),
+      theme: ThemeData(
+        primarySwatch: Colors.pink,
+        scaffoldBackgroundColor: Colors.pink[50],
+        textTheme: GoogleFonts.openSansTextTheme(
+          Theme.of(context).textTheme,
+        ),
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.pink,
+          centerTitle: true,
+          titleTextStyle: GoogleFonts.openSans(
+            color: Colors.pink,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
+          iconTheme: const IconThemeData(color: Colors.pink),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.pink[400],
+            foregroundColor: Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+            elevation: 2,
+          ),
+        ),
+        cardTheme: CardThemeData(
+          elevation: 11,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+          color: Colors.white,
+        ),
+        dialogTheme: DialogThemeData(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          titleTextStyle: GoogleFonts.openSans(
+            color: Colors.pink[800],
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+          contentTextStyle: GoogleFonts.openSans(
+            color: Colors.brown[800],
+            fontSize: 16,
+          ),
+        ),
+      ),
       home: IdeaScreen(ideaService: ideaService),
     );
   }
@@ -72,28 +119,43 @@ class _IdeaScreenState extends State<IdeaScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text("Přidej nový nápad 💡"),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        title: Row(
+          children: [
+            Icon(Icons.add_box_rounded, color: Colors.pink[300]),
+            const SizedBox(width: 8),
+            Text("Přidej nový nápad", style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+          ],
+        ),
         content: TextField(
           controller: controller,
-          decoration: const InputDecoration(
+          decoration: InputDecoration(
             hintText: "Napiš nápad na aktivitu...",
-            border: OutlineInputBorder(),
+            filled: true,
+            fillColor: Colors.pink[50],
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
           ),
           maxLines: 3,
+          autofocus: true,
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
             child: const Text("Zrušit"),
           ),
-          ElevatedButton(
+          ElevatedButton.icon(
+            icon: const Icon(Icons.check),
+            label: const Text("Přidat"),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.pink[400],
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+            ),
             onPressed: () async {
               try {
                 if (controller.text.trim().isNotEmpty) {
                   await widget.ideaService.addIdea(controller.text.trim());
                   await _loadIdeas();
                   Navigator.pop(context);
-                  
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text("Nápad přidán! 🎉"),
@@ -107,7 +169,6 @@ class _IdeaScreenState extends State<IdeaScreen> {
                 );
               }
             },
-            child: const Text("Přidat"),
           ),
         ],
       ),
@@ -146,19 +207,24 @@ class _IdeaScreenState extends State<IdeaScreen> {
             content: SizedBox(
               width: double.maxFinite,
               child: ListView.builder(
+                shrinkWrap: true,
                 itemCount: customIdeas.length,
                 itemBuilder: (context, index) {
                   final idea = customIdeas[index];
-                  return ListTile(
-                    title: Text(idea.text),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () async {
-                        await widget.ideaService.deleteIdea(idea.text);
-                        await _loadIdeas();
-                        Navigator.pop(context);
-                        _showCustomIdeasDialog();
-                      },
+                  return Card(
+                    margin: const EdgeInsets.symmetric(vertical: 6),
+                    child: ListTile(
+                      title: Text(idea.text, style: GoogleFonts.openSans(fontWeight: FontWeight.w500)),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete, color: Colors.redAccent),
+                        onPressed: () async {
+                          await widget.ideaService.deleteIdea(idea.text);
+                          await _loadIdeas();
+                          Navigator.pop(context);
+                          _showCustomIdeasDialog();
+                        },
+                        tooltip: "Smazat nápad",
+                      ),
                     ),
                   );
                 },
@@ -193,53 +259,41 @@ class _IdeaScreenState extends State<IdeaScreen> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.favorite, color: Colors.pink, size: 50),
-                    const SizedBox(height: 20),
-                    Text(
-                      currentIdea,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.brown[800],
-                      ),
-                    ),
-                    const SizedBox(height: 40),
-                    ElevatedButton(
-                      onPressed: generateIdea,
-                      style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 15,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+              child: Card(
+                margin: const EdgeInsets.all(24),
+                child: Padding(
+                  padding: const EdgeInsets.all(32.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.favorite, color: Colors.pink[300], size: 54),
+                      const SizedBox(height: 20),
+                      Text(
+                        currentIdea,
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.openSans(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.brown[800],
                         ),
                       ),
-                      child: const Text(
-                        "Co budeme dělat?",
-                        style: TextStyle(fontSize: 18),
+                      const SizedBox(height: 40),
+                      ElevatedButton(
+                        onPressed: generateIdea,
+                        child: const Text("Co budeme dělat?"),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton.icon(
-                      onPressed: _showAddIdeaDialog,
-                      icon: const Icon(Icons.add),
-                      label: const Text("Přidat nápad"),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.pink[300],
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 20,
-                          vertical: 12,
+                      const SizedBox(height: 16),
+                      ElevatedButton.icon(
+                        onPressed: _showAddIdeaDialog,
+                        icon: const Icon(Icons.add),
+                        label: const Text("Přidat nápad"),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink[300],
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
