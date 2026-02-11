@@ -15,6 +15,14 @@ class IdeaService {
     Idea(text: "Výlet na nejbližší hrad nebo zříceninu 🏰"),
     Idea(text: "Společné vaření nového receptu 🍳"),
     Idea(text: "Večer bez telefonů jen s vínem a hudbou 🍷"),
+    Idea(text: "Piknik na kapotě auta s výhledem do krajiny 🚗"),
+    Idea(text: "Stavba bunkru v obýváku z polštářů a dek ⛺"),
+    Idea(text: "Degustace řemeslných piv nebo čokolády doma 🍻"),
+    Idea(text: "Návštěva útulku a společné venčení psů 🐕"),
+    Idea(text: "Geocaching - hledání pokladů ve vašem okolí 📍"),
+    Idea(text: "Noc v autě nebo pod širákem na zahradě 🌌"),
+    Idea(text: "Kurz tance podle YouTube tutoriálu v obýváku 💃"),
+    Idea(text: "Vytvoření společného 'wishlistu' zážitků na příští rok 📝"),
   ];
 
   // Inicializace
