@@ -1,16 +1,46 @@
-# greatweekend
+# 💖 Idea Generator – Naplánuj náš program!
 
-A new Flutter project.
+Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní generátor nápadů na společné aktivity. Už žádné dlouhé rozmýšlení, co budeme dělat – stačí jedno kliknutí!
 
-## Getting Started
+## ✨ Funkce
+* **Náhodné generování:** Algoritmus vybere jeden z tvých uložených nápadů.
+* **Vlastní nápady:** Snadné přidávání nových aktivit přímo v aplikaci.
+* **Správa seznamu:** Možnost prohlížet a mazat vlastní nápady.
+* **Responzivní design:** Moderní, růžovo-krémový vzhled s důrazem na čistou typografii (Google Fonts).
 
-This project is a starting point for a Flutter application.
+## 🚀 Technologie
+* [Flutter](https://flutter.dev) – Framework pro multiplatformní vývoj.
+* [Dart](https://dart.dev) – Programovací jazyk.
+* [Google Fonts](https://pub.dev/packages/google_fonts) – Balíček pro krásné písmo (Open Sans).
+* **Local Persistence** – Ukládání nápadů přímo v zařízení uživatele.
 
-A few resources to get you started if this is your first Flutter project:
+## 🛠️ Instalace a spuštění
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1.  **Klonování repozitáře:**
+    ```bash
+    git clone [https://github.com/tvoje-uzivatelske-jmeno/idea-generator.git](https://github.com/tvoje-uzivatelske-jmeno/idea-generator.git)
+    ```
+2.  **Instalace závislostí:**
+    V kořenovém adresáři projektu spusť:
+    ```bash
+    flutter pub get
+    ```
+3.  **Spuštění aplikace:**
+    Ujisti se, že máš připojený emulátor nebo fyzické Android zařízení:
+    ```bash
+    flutter run
+    ```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 📸 Ukázka aplikace
+| Hlavní obrazovka | Přidání nápadu | Moje nápady |
+| :---: | :---: | :---: |
+| ![Screen1](https://via.placeholder.com/200x400?text=Home+Screen) | ![Screen2](https://via.placeholder.com/200x400?text=Add+Idea) | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
+*(Tip: Nahraď tyto placeholder odkazy reálnými screenshoty ze složky assets)*
+
+## 🛣️ Budoucí plány (Roadmap)
+- [ ] Přidání kategorií (např. Doma, Venku).
+- [ ] Animované přechody při generování textu.
+- [ ] Export/Import seznamu nápadů pro sdílení s partnerem.
+
+---
+Vytvořeno s ❤️ pro lepší plánování volného času.
