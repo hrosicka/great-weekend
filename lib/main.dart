@@ -86,6 +86,9 @@ class _IdeaScreenState extends State<IdeaScreen> {
   String currentIdea = "Klikni na tlačítko a naplánuj nám program! ❤️";
   bool isLoading = true;
 
+  // Nová proměnná pro filtr (vse = zobrazení všeho)
+  IdeaCategory selectedFilter = IdeaCategory.vse;
+
   @override
   void initState() {
     super.initState();
@@ -101,76 +104,123 @@ class _IdeaScreenState extends State<IdeaScreen> {
   }
 
   void generateIdea() {
-    if (allIdeas.isEmpty) {
+    // 1. Vytvoříme filtrovaný seznam
+    final filteredIdeas = selectedFilter == IdeaCategory.vse
+        ? allIdeas
+        : allIdeas.where((idea) => idea.category == selectedFilter).toList();
+
+    if (filteredIdeas.isEmpty) {
       setState(() {
-        currentIdea = "Zatím žádné nápady! Přidej si nějaké. 😊";
+        currentIdea = "V této kategorii zatím nic není! 😊";
       });
       return;
     }
 
+    // 2. Náhodný výběr z filtrovaného seznamu
     setState(() {
-      currentIdea = allIdeas[Random().nextInt(allIdeas.length)].text;
+      currentIdea = filteredIdeas[Random().nextInt(filteredIdeas.length)].text;
     });
   }
 
   void _showAddIdeaDialog() {
     final TextEditingController controller = TextEditingController();
+    // Výchozí vybraná kategorie
+    IdeaCategory selectedCategory = IdeaCategory.doma;
 
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-        title: Row(
-          children: [
-            Icon(Icons.add_box_rounded, color: Colors.pink[300]),
-            const SizedBox(width: 8),
-            Text("Přidej nový nápad", style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
-          ],
-        ),
-        content: TextField(
-          controller: controller,
-          decoration: InputDecoration(
-            hintText: "Napiš nápad na aktivitu...",
-            filled: true,
-            fillColor: Colors.pink[50],
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-          ),
-          maxLines: 3,
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: const Text("Zrušit"),
-          ),
-          ElevatedButton.icon(
-            icon: const Icon(Icons.check),
-            label: const Text("Přidat"),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.pink[400],
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      builder: (context) => StatefulBuilder( // Umožňuje měnit stav uvnitř dialogu
+        builder: (context, setDialogState) {
+          return AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            title: Row(
+              children: [
+                Icon(Icons.add_box_rounded, color: Colors.pink[300]),
+                const SizedBox(width: 8),
+                Text("Přidej nový nápad", 
+                  style: GoogleFonts.openSans(fontWeight: FontWeight.bold)),
+              ],
             ),
-            onPressed: () async {
-              try {
-                if (controller.text.trim().isNotEmpty) {
-                  await widget.ideaService.addIdea(controller.text.trim());
-                  await _loadIdeas();
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text("Nápad přidán! 🎉"),
-                      duration: Duration(seconds: 2),
+            content: Column(
+              mainAxisSize: MainAxisSize.min, // Dialog se přizpůsobí obsahu
+              children: [
+                TextField(
+                  controller: controller,
+                  decoration: InputDecoration(
+                    hintText: "Napiš nápad na aktivitu...",
+                    filled: true,
+                    fillColor: Colors.pink[50],
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                  ),
+                  maxLines: 2,
+                  autofocus: true,
+                ),
+                const SizedBox(height: 20),
+                // Výběr kategorie
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.pink[100]!),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<IdeaCategory>(
+                      value: selectedCategory,
+                      isExpanded: true,
+                      icon: const Icon(Icons.arrow_drop_down, color: Colors.pink),
+                      items: IdeaCategory.values.where((c) => c != IdeaCategory.vse).map((cat) {
+                        return DropdownMenuItem(
+                          value: cat,
+                          child: Row(
+                            children: [
+                              Icon(_getCategoryIcon(cat), size: 20, color: Colors.pink[300]),
+                              const SizedBox(width: 10),
+                              Text(cat.name.toUpperCase()),
+                            ],
+                          ),
+                        );
+                      }).toList(),
+                      onChanged: (newValue) {
+                        // Tady používáme setDialogState místo setState!
+                        setDialogState(() {
+                          selectedCategory = newValue!;
+                        });
+                      },
                     ),
-                  );
-                }
-              } catch (e) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text("Chyba: $e")),
-                );
-              }
-            },
-          ),
-        ],
+                  ),
+                ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context),
+                child: const Text("Zrušit"),
+              ),
+              ElevatedButton.icon(
+                icon: const Icon(Icons.check),
+                label: const Text("Přidat"),
+                onPressed: () async {
+                  final text = controller.text.trim();
+                  if (text.isNotEmpty) {
+                    try {
+                      // POZOR: Tady musí tvůj IdeaService přijímat i kategorii!
+                      await widget.ideaService.addIdea(text, category: selectedCategory);
+                      await _loadIdeas();
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text("Nápad přidán! 🎉")),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Chyba: $e")),
+                      );
+                    }
+                  }
+                },
+              ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -183,7 +233,10 @@ class _IdeaScreenState extends State<IdeaScreen> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return const AlertDialog(
-              content: CircularProgressIndicator(),
+              content: SizedBox(
+                height: 100,
+                child: Center(child: CircularProgressIndicator()),
+              ),
             );
           }
 
@@ -214,7 +267,24 @@ class _IdeaScreenState extends State<IdeaScreen> {
                   return Card(
                     margin: const EdgeInsets.symmetric(vertical: 6),
                     child: ListTile(
-                      title: Text(idea.text, style: GoogleFonts.openSans(fontWeight: FontWeight.w500)),
+                      // Přidáme ikonku kategorie před text
+                      leading: CircleAvatar(
+                        backgroundColor: Colors.pink[50],
+                        child: Icon(
+                          _getCategoryIcon(idea.category),
+                          color: Colors.pink[300],
+                          size: 20,
+                        ),
+                      ),
+                      title: Text(
+                        idea.text,
+                        style: GoogleFonts.openSans(fontWeight: FontWeight.w500),
+                      ),
+                      // Přidáme podnadpis s názvem kategorie
+                      subtitle: Text(
+                        idea.category.name.toUpperCase(),
+                        style: TextStyle(fontSize: 12, color: Colors.grey[600]),
+                      ),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete, color: Colors.redAccent),
                         onPressed: () async {
@@ -242,6 +312,16 @@ class _IdeaScreenState extends State<IdeaScreen> {
     );
   }
 
+  // Pomocná metoda pro ikonky (dej ji do _IdeaScreenState)
+  IconData _getCategoryIcon(IdeaCategory category) {
+    switch (category) {
+      case IdeaCategory.doma: return Icons.home_rounded;
+      case IdeaCategory.venku: return Icons.forest_rounded;
+      case IdeaCategory.jidlo: return Icons.restaurant_rounded;
+      default: return Icons.lightbulb_outline_rounded;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -252,50 +332,88 @@ class _IdeaScreenState extends State<IdeaScreen> {
           IconButton(
             icon: const Icon(Icons.list),
             onPressed: _showCustomIdeasDialog,
-            tooltip: "Moje nápady",
           ),
         ],
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Center(
-              child: Card(
-                margin: const EdgeInsets.all(24),
-                child: Padding(
-                  padding: const EdgeInsets.all(32.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.favorite, color: Colors.pink[300], size: 54),
-                      const SizedBox(height: 20),
-                      Text(
-                        currentIdea,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.openSans(
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.brown[800],
+          : Column(
+              children: [
+                const SizedBox(height: 16),
+                // Tady je ten nový horizontální filtr
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: IdeaCategory.values.map((category) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: ChoiceChip(
+                          label: Text(category.name.toUpperCase()),
+                          selected: selectedFilter == category,
+                          selectedColor: Colors.pink[300],
+                          backgroundColor: Colors.white,
+                          labelStyle: TextStyle(
+                            color: selectedFilter == category ? Colors.white : Colors.pink,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          onSelected: (bool selected) {
+                            setState(() {
+                              selectedFilter = category;
+                            });
+                          },
                         ),
-                      ),
-                      const SizedBox(height: 40),
-                      ElevatedButton(
-                        onPressed: generateIdea,
-                        child: const Text("Co budeme dělat?"),
-                      ),
-                      const SizedBox(height: 16),
-                      ElevatedButton.icon(
-                        onPressed: _showAddIdeaDialog,
-                        icon: const Icon(Icons.add),
-                        label: const Text("Přidat nápad"),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.pink[300],
-                        ),
-                      ),
-                    ],
+                      );
+                    }).toList(),
                   ),
                 ),
-              ),
+                
+                // Tady je zbytek s kartou a tlačítky
+                Expanded(
+                  child: Center(
+                    child: Card(
+                      margin: const EdgeInsets.all(24),
+                      child: Padding(
+                        padding: const EdgeInsets.all(32.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              _getCategoryIcon(selectedFilter),
+                              color: Colors.pink[300], 
+                              size: 54
+                            ),
+                            const SizedBox(height: 20),
+                            Text(
+                              currentIdea,
+                              textAlign: TextAlign.center,
+                              style: GoogleFonts.openSans(
+                                fontSize: 25,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.brown[800],
+                              ),
+                            ),
+                            const SizedBox(height: 40),
+                            ElevatedButton(
+                              onPressed: generateIdea,
+                              child: const Text("Co budeme dělat?"),
+                            ),
+                            const SizedBox(height: 16),
+                            ElevatedButton.icon(
+                              onPressed: _showAddIdeaDialog,
+                              icon: const Icon(Icons.add),
+                              label: const Text("Přidat nápad"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.pink[300],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
     );
   }
