@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 
 /// Definice kategorií nápadů
 enum IdeaCategory {

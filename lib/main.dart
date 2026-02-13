@@ -14,7 +14,7 @@ void main() async {
 class IdeaGeneratorApp extends StatelessWidget {
   final IdeaService ideaService;
 
-  const IdeaGeneratorApp({required this.ideaService});
+  const IdeaGeneratorApp({super.key, required this.ideaService});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,7 @@ class IdeaGeneratorApp extends StatelessWidget {
 class IdeaScreen extends StatefulWidget {
   final IdeaService ideaService;
 
-  const IdeaScreen({required this.ideaService});
+  const IdeaScreen({super.key, required this.ideaService});
 
   @override
   _IdeaScreenState createState() => _IdeaScreenState();
@@ -327,7 +327,7 @@ class _IdeaScreenState extends State<IdeaScreen> {
     return Scaffold(
       backgroundColor: Colors.pink[50],
       appBar: AppBar(
-        title: const Text("Generátor našich nápadů"),
+        title: const Text("Dáme akci?"),
         actions: [
           IconButton(
             icon: const Icon(Icons.list),
@@ -341,28 +341,30 @@ class _IdeaScreenState extends State<IdeaScreen> {
               children: [
                 const SizedBox(height: 16),
                 // Tady je ten nový horizontální filtr
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Row(
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Wrap(
+                    spacing: 8.0, // Mezera mezi chipy vedle sebe
+                    runSpacing: 4.0, // Mezera mezi řádky pod sebou
+                    alignment: WrapAlignment.center, // Vycentruje tlačítka
                     children: IdeaCategory.values.map((category) {
-                      return Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: ChoiceChip(
-                          label: Text(category.name.toUpperCase()),
-                          selected: selectedFilter == category,
-                          selectedColor: Colors.pink[300],
-                          backgroundColor: Colors.white,
-                          labelStyle: TextStyle(
-                            color: selectedFilter == category ? Colors.white : Colors.pink,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          onSelected: (bool selected) {
-                            setState(() {
-                              selectedFilter = category;
-                            });
-                          },
+                      return ChoiceChip(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
+                        label: Text(category.name.toUpperCase()),
+                        selected: selectedFilter == category,
+                        selectedColor: Colors.pink[300],
+                        backgroundColor: Colors.white,
+                        labelStyle: TextStyle(
+                          color: selectedFilter == category ? Colors.white : Colors.pink,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        onSelected: (bool selected) {
+                          setState(() {
+                            selectedFilter = category;
+                          });
+                        },
                       );
                     }).toList(),
                   ),
