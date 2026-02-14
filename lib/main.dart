@@ -390,7 +390,7 @@ class _IdeaScreenState extends State<IdeaScreen> {
                 Expanded(
                   child: Center(
                     child: Card(
-                      margin: const EdgeInsets.all(24),
+                      margin: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 80),
                       child: Padding(
                         padding: const EdgeInsets.all(32.0),
                         child: Column(
