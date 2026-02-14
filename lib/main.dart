@@ -374,6 +374,11 @@ class _IdeaScreenState extends State<IdeaScreen> {
                         onSelected: (bool selected) {
                           setState(() {
                             selectedFilter = category;
+                            if (category == IdeaCategory.vse) {
+                              currentIdea = "Klikni a naplánuj nám program! ❤️";
+                            } else {
+                              currentIdea = "Zkusíme najít něco pro kategorii ${category.name.toUpperCase()}? ✨";
+                            }
                           });
                         },
                       );
