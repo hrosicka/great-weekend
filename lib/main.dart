@@ -312,15 +312,26 @@ class _IdeaScreenState extends State<IdeaScreen> {
     );
   }
 
-  // Pomocná metoda pro ikonky (dej ji do _IdeaScreenState)
   IconData _getCategoryIcon(IdeaCategory category) {
-    switch (category) {
-      case IdeaCategory.doma: return Icons.home_rounded;
-      case IdeaCategory.venku: return Icons.forest_rounded;
-      case IdeaCategory.jidlo: return Icons.restaurant_rounded;
-      default: return Icons.lightbulb_outline_rounded;
-    }
+  switch (category) {
+    case IdeaCategory.doma:
+      return Icons.home_rounded;
+    case IdeaCategory.venku:
+      return Icons.forest_rounded;
+    case IdeaCategory.jidlo:
+      return Icons.restaurant_rounded;
+    case IdeaCategory.aktivni:
+      return Icons.fitness_center_rounded;
+    case IdeaCategory.romantika:
+      return Icons.favorite_rounded;
+    case IdeaCategory.kultura:
+      return Icons.theater_comedy_rounded;
+    case IdeaCategory.rychlovky:
+      return Icons.timer_rounded;
+    case IdeaCategory.vse:
+      return Icons.auto_awesome_motion_rounded;
   }
+}
 
   @override
   Widget build(BuildContext context) {

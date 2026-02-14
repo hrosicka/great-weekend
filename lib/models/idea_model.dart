@@ -4,7 +4,11 @@ enum IdeaCategory {
   vse,       // Pro zobrazení všeho
   doma, 
   venku, 
-  jidlo 
+  jidlo,
+  aktivni,   // Sport, procházky, adrenalin
+  romantika, // Svíčky, výhledy, rande
+  kultura,   // Kino, muzea, divadlo
+  rychlovky,  // Aktivity do 30 minut
 }
 
 class Idea {
