@@ -402,13 +402,19 @@ class _IdeaScreenState extends State<IdeaScreen> {
                               size: 54
                             ),
                             const SizedBox(height: 20),
-                            Text(
-                              currentIdea,
-                              textAlign: TextAlign.center,
-                              style: GoogleFonts.openSans(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.brown[800],
+                            AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 500),
+                              transitionBuilder: (Widget child, Animation<double> animation) =>
+                                  FadeTransition(opacity: animation, child: child),
+                              child: Text(
+                                currentIdea,
+                                key: ValueKey<String>(currentIdea), // PŘIDEJ TENTO ŘÁDEK
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.openSans(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.brown[800],
+                                ),
                               ),
                             ),
                             const SizedBox(height: 40),
