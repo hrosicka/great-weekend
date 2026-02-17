@@ -48,6 +48,54 @@ Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní gener
 ---
 Vytvořeno s ❤️ pro lepší plánování volného času.
 
+---
+---
+
 <a name="english"></a>
 # 💖 Great Weekend
+
+An Android application built with Flutter that serves as a personal idea generator for shared activities. No more endless debating on what to do – just one click and you're ready to go!
+
+## ✨ Features
+* **Random Generation:** An algorithm selects one activity from your saved ideas.
+* **Custom Ideas:** Easily add new activities directly within the app.
+* **List Management:** View and delete your saved ideas whenever you want.
+* **Responsive Design:** A modern, pink-and-cream aesthetic with a focus on clean typography (Google Fonts).
+
+## 🚀 Technologies
+* [Flutter](https://flutter.dev) – Multi-platform development framework.
+* [Dart](https://dart.dev) – Programming language.
+* [Google Fonts](https://pub.dev/packages/google_fonts) – Package for beautiful typography (Open Sans).
+* **Local Persistence** – Ideas are saved locally on the user's device.
+
+## 🛠️ Installation and Setup
+
+1.  **Clone the repository:**
+    ```bash
+    git clone [https://github.com/your-username/idea-generator.git](https://github.com/your-username/idea-generator.git)
+    ```
+2.  **Install dependencies:**
+    Run the following command in the project root directory:
+    ```bash
+    flutter pub get
+    ```
+3.  **Run the app:**
+    Ensure you have an emulator or a physical Android device connected:
+    ```bash
+    flutter run
+    ```
+
+## 📸 App Showcase
+| Main Screen | Add Idea | My Ideas |
+| :---: | :---: | :---: |
+| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | ![Screen2](https://via.placeholder.com/200x400?text=Add+Idea) | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
+*(Tip: Replace these placeholder links with real screenshots from the assets folder)*
+
+## 🛣️ Roadmap
+- [ ] Add categories (e.g., At Home, Outdoors).
+- [ ] Animated transitions for text generation.
+- [ ] Export/Import idea lists for sharing with a partner.
+
+---
+Created with ❤️ for better free time planning.
 
