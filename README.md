@@ -34,7 +34,7 @@ Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní gener
 ## 📸 Ukázka aplikace
 | Hlavní obrazovka | Přidání nápadu | Moje nápady |
 | :---: | :---: | :---: |
-| ![Screen1](https://via.placeholder.com/200x400?text=Home+Screen) | ![Screen2](https://via.placeholder.com/200x400?text=Add+Idea) | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
+| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | ![Screen2](https://via.placeholder.com/200x400?text=Add+Idea) | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
 *(Tip: Nahraď tyto placeholder odkazy reálnými screenshoty ze složky assets)*
 
 ## 🛣️ Budoucí plány (Roadmap)
