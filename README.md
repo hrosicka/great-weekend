@@ -1,4 +1,7 @@
-# 💖 Idea Generator – Naplánuj náš program!
+[English](#english) | [Čeština](#čeština)
+
+<a name="čeština"></a>
+# 💖 Skvělý Víkend
 
 Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní generátor nápadů na společné aktivity. Už žádné dlouhé rozmýšlení, co budeme dělat – stačí jedno kliknutí!
 
@@ -44,3 +47,7 @@ Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní gener
 
 ---
 Vytvořeno s ❤️ pro lepší plánování volného času.
+
+<a name="english"></a>
+# 💖 Great Weekend
+
