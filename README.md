@@ -37,7 +37,7 @@ Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní gener
 ## 📸 Ukázka aplikace
 | Hlavní obrazovka | Přidání nápadu | Moje nápady |
 | :---: | :---: | :---: |
-| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
+| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/my_ideas_pic.jpg?raw=true" width="200"> |
 
 ## 🛣️ Budoucí plány (Roadmap)
 - [ ] Přidání kategorií (např. Doma, Venku).
@@ -87,7 +87,7 @@ An Android application built with Flutter that serves as a personal idea generat
 ## 📸 App Showcase
 | Main Screen | Add Idea | My Ideas |
 | :---: | :---: | :---: |
-| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | ![Screen3](https://via.placeholder.com/200x400?text=List+View) |
+| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/my_ideas_pic.jpg?raw=true" width="200"> |
 
 ## 🛣️ Roadmap
 - [ ] Add categories (e.g., At Home, Outdoors).
