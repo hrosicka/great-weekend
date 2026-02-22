@@ -17,6 +17,7 @@ class IdeaService {
     Idea(text: "Společné skládání puzzle u dobrého čaje 🧩", category: IdeaCategory.doma),
     Idea(text: "Kreativní večer: Namalujte každý jeden obraz toho druhého 🎨", category: IdeaCategory.doma),
     Idea(text: "Domácí wellness: Pleťové masky, vana a relax 🛁", category: IdeaCategory.doma),
+    Idea(text: "Plánování trasy na roadtrip nad papírovou mapou 🗺️", category: IdeaCategory.doma),
 
     // --- VENKU ---
     Idea(text: "Společná procházka v parku při západu slunce 🌅", category: IdeaCategory.venku),
@@ -29,7 +30,7 @@ class IdeaService {
     Idea(text: "Foto-procházka: Foťte detaily města jen černobíle 📸", category: IdeaCategory.venku),
     Idea(text: "Půjčení lodičky nebo šlapadla na řece 🚣", category: IdeaCategory.venku),
     Idea(text: "Pozorování letadel u letiště s kávou v ruce ✈️", category: IdeaCategory.venku),
-    Idea(text: "Plánování trasy na roadtrip nad papírovou mapou 🗺️", category: IdeaCategory.venku),
+    
 
     // --- JÍDLO ---
     Idea(text: "Domácí pizza night (každý dělá svou polovinu) 🍕", category: IdeaCategory.jidlo),
