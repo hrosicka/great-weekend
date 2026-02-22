@@ -35,9 +35,9 @@ Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní gener
     ```
 
 ## 📸 Ukázka aplikace
-| Hlavní obrazovka | Přidání nápadu | Moje nápady |
-| :---: | :---: | :---: |
-| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/my_ideas_pic.jpg?raw=true" width="200"> |
+| Hlavní obrazovka | Přidání nápadu | Moje nápady | Nápad |
+| :---: | :---: | :---: | :---: |
+| <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/main_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/add_idea_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/my_ideas_pic.jpg?raw=true" width="200"> | <img src="https://github.com/hrosicka/great-weekend/blob/master/assets/idea.jpg?raw=true" width="200"> |
 
 ## 🛣️ Budoucí plány (Roadmap)
 - [ ] Přidání kategorií (např. Doma, Venku).
