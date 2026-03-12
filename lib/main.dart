@@ -346,98 +346,117 @@ class _IdeaScreenState extends State<IdeaScreen> {
           ),
         ],
       ),
+      // Používáme LayoutBuilder, abychom věděli, kolik máme místa
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                const SizedBox(height: 16),
-                // Tady je ten nový horizontální filtr
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Wrap(
-                    spacing: 8.0, // Mezera mezi chipy vedle sebe
-                    runSpacing: 4.0, // Mezera mezi řádky pod sebou
-                    alignment: WrapAlignment.center, // Vycentruje tlačítka
-                    children: IdeaCategory.values.map((category) {
-                      return ChoiceChip(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        label: Text(category.name.toUpperCase()),
-                        selected: selectedFilter == category,
-                        selectedColor: Colors.pink[300],
-                        backgroundColor: Colors.white,
-                        labelStyle: TextStyle(
-                          color: selectedFilter == category ? Colors.white : Colors.pink,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        onSelected: (bool selected) {
-                          setState(() {
-                            selectedFilter = category;
-                            if (category == IdeaCategory.vse) {
-                              currentIdea = "Klikni a naplánuj nám program! ❤️";
-                            } else {
-                              currentIdea = "Zkusíme najít něco pro kategorii ${category.name.toUpperCase()}? ✨";
-                            }
-                          });
-                        },
-                      );
-                    }).toList(),
-                  ),
-                ),
-                
-                // Tady je zbytek s kartou a tlačítky
-                Expanded(
-                  child: Center(
-                    child: Card(
-                      margin: const EdgeInsets.only(left: 24, right: 24, top: 16, bottom: 80),
-                      child: Padding(
-                        padding: const EdgeInsets.all(32.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              _getCategoryIcon(selectedFilter),
-                              color: Colors.pink[300], 
-                              size: 54
+          : LayoutBuilder(
+              builder: (context, constraints) {
+                return SingleChildScrollView( // Umožňuje skrolování na malých mobilech
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight, // Karta se bude snažit být na střed
+                    ),
+                    child: IntrinsicHeight(
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 16),
+                          
+                          // Horizontální filtr (Wrap je super, že neuteče z obrazovky)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Wrap(
+                              spacing: 8.0,
+                              runSpacing: 4.0,
+                              alignment: WrapAlignment.center,
+                              children: IdeaCategory.values.map((category) {
+                                return ChoiceChip(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  label: Text(category.name.toUpperCase()),
+                                  selected: selectedFilter == category,
+                                  selectedColor: Colors.pink[300],
+                                  backgroundColor: Colors.white,
+                                  labelStyle: TextStyle(
+                                    color: selectedFilter == category ? Colors.white : Colors.pink,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 12, // Trochu menší písmo pro jistotu
+                                  ),
+                                  onSelected: (bool selected) {
+                                    setState(() {
+                                      selectedFilter = category;
+                                      if (category == IdeaCategory.vse) {
+                                        currentIdea = "Klikni a naplánuj nám program! ❤️";
+                                      } else {
+                                        currentIdea = "Zkusíme najít něco pro kategorii ${category.name.toUpperCase()}? ✨";
+                                      }
+                                    });
+                                  },
+                                );
+                              }).toList(),
                             ),
-                            const SizedBox(height: 20),
-                            AnimatedSwitcher(
-                              duration: const Duration(milliseconds: 500),
-                              transitionBuilder: (Widget child, Animation<double> animation) =>
-                                  FadeTransition(opacity: animation, child: child),
-                              child: Text(
-                                currentIdea,
-                                key: ValueKey<String>(currentIdea), // PŘIDEJ TENTO ŘÁDEK
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.openSans(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.brown[800],
+                          ),
+                          
+                          // Hlavní část s kartou
+                          // Nahrazen Expanded za Flexible/Padding kvůli ScrollView
+                          Padding(
+                            padding: const EdgeInsets.only(top: 20, bottom: 40),
+                            child: Center(
+                              child: Card(
+                                margin: const EdgeInsets.symmetric(horizontal: 24),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(24.0), // Mírně zmenšen padding
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(
+                                        _getCategoryIcon(selectedFilter),
+                                        color: Colors.pink[300], 
+                                        size: 48, // Mírně zmenšeno
+                                      ),
+                                      const SizedBox(height: 20),
+                                      AnimatedSwitcher(
+                                        duration: const Duration(milliseconds: 500),
+                                        transitionBuilder: (Widget child, Animation<double> animation) =>
+                                            FadeTransition(opacity: animation, child: child),
+                                        child: Text(
+                                          currentIdea,
+                                          key: ValueKey<String>(currentIdea),
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 22, // Zmenšeno z 25 pro lepší čitelnost
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.brown[800],
+                                          ),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 32),
+                                      ElevatedButton(
+                                        onPressed: generateIdea,
+                                        child: const Text("Co budeme dělat?"),
+                                      ),
+                                      const SizedBox(height: 12),
+                                      ElevatedButton.icon(
+                                        onPressed: _showAddIdeaDialog,
+                                        icon: const Icon(Icons.add, size: 20),
+                                        label: const Text("Přidat nápad"),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.pink[300],
+                                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 40),
-                            ElevatedButton(
-                              onPressed: generateIdea,
-                              child: const Text("Co budeme dělat?"),
-                            ),
-                            const SizedBox(height: 16),
-                            ElevatedButton.icon(
-                              onPressed: _showAddIdeaDialog,
-                              icon: const Icon(Icons.add),
-                              label: const Text("Přidat nápad"),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.pink[300],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ),
-              ],
+                );
+              },
             ),
     );
   }
