@@ -3,6 +3,11 @@
 <a name="čeština"></a>
 # 💖 Skvělý Víkend
 
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Platform](https://img.shields.io/badge/Platform-Android-FF69B4?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![Style](https://img.shields.io/badge/Design-Pink%20%26%20Cream-F4C2C2?style=for-the-badge)](https://pub.dev/packages/google_fonts)
+
 Aplikace pro Android vytvořená ve Flutteru, která slouží jako osobní generátor nápadů na společné aktivity. Už žádné dlouhé rozmýšlení, co budeme dělat – stačí jedno kliknutí!
 
 ## ✨ Funkce
@@ -52,6 +57,11 @@ Vytvořeno s ❤️ pro lepší plánování volného času.
 
 <a name="english"></a>
 # 💖 Great Weekend
+
+[![Flutter](https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=Flutter&logoColor=white)](https://flutter.dev)
+[![Dart](https://img.shields.io/badge/dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev)
+[![Platform](https://img.shields.io/badge/Platform-Android-FF69B4?style=for-the-badge&logo=android&logoColor=white)](https://developer.android.com)
+[![Style](https://img.shields.io/badge/Design-Pink%20%26%20Cream-F4C2C2?style=for-the-badge)](https://pub.dev/packages/google_fonts)
 
 An Android application built with Flutter that serves as a personal idea generator for shared activities. No more endless debating on what to do – just one click and you're ready to go!
 
